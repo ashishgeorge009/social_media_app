@@ -33,11 +33,9 @@ app.use(function checkBody(req, res, next) {
 // getOne
 // npm i uuid
 // npm i nodemon --save-dev
-
 // /api/v1/user/:uid=>userRouter 
 // api/v1/post/:uid=> postRouter
 // router created
-
 // 
 // localhost:3000/api/v1/users/:uid
 app.use("/api/v1/user", userRouter);
