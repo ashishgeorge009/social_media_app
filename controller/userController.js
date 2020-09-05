@@ -41,7 +41,7 @@ const getUser = async (req, res) => {
     // req paramatere -> user id
     let cUid = req.params.uid;
     try{
-    user = await userModel.getById(cUid);
+    userArr = await userModel.getById(cUid);
     // console.log(req.params);
     res.status(201).json({
         status: "success",
