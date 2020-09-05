@@ -10,32 +10,40 @@ const getAllUser = (req, res) => {
         userDB: userDB
     })
 }
-const updateUser = (req, res) => {
-    let user = getUserById(req.params.uid);
-    let toBeUpdatedObj = req.body;
-    // user , obj
-    // user.something
-    for (let key in toBeUpdatedObj) {
-        console.log(key);
-        user[key] = toBeUpdatedObj[key];
+const updateUser = async (req, res) => {
+    let cid = req.params.uid;
+    try{
+        var upUser= await userModel.update(cid,)
+        res.status(200).json({
+            status: "success",
+            updated: upUser
+        })
+    }catch(err){
+        res.status(201).json({
+            status: "failed",
+            error : err.message
+        })
     }
-    fs.writeFileSync(path.join(__dirname, "../model/user.json"), JSON.stringify(userDB));
-    res.status(200).json({
-        status: "success",
-        user: user
-    })
+   
+    
 
 }
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
     let cid = req.params.uid;
-    console.log(userDB.length);
-    userDB = userDB.filter((user) => { return user.uid != cid; })
-    fs.writeFileSync(path.join(__dirname, "../model/user.json"), JSON.stringify(userDB));
+    let userUp = req.body;
+    try{
+    userDel = await userModel.delete(cid, userUp);
     res.status(200).json({
         status: "success",
-        userDB,
-        length: userDB.length
+        deleted : userDel
+        
     })
+    }catch(err){
+        res.status(201).json({
+            status: "failed",
+            error : err.message
+        })
+    }
 }
 const getUser = async (req, res) => {
     // req paramatere -> user id
