@@ -1,6 +1,6 @@
 const userDB = require("../model/user.json");
 const userModel = require("../model/userModel");
-const { v4: uuidv4 } = require('uuid');
+
 
 const getAllUser = (req, res) => {
     // req paramatere -> user id
@@ -37,31 +37,39 @@ const deleteUser = (req, res) => {
         length: userDB.length
     })
 }
-const getUser = (req, res) => {
+const getUser = async (req, res) => {
     // req paramatere -> user id
     let cUid = req.params.uid;
-    let userArr = userDB.filter((user) => {
-        return user.uid == cUid;
-    });
-    console.log(req.params);
+    try{
+    user = await userModel.getById(cUid);
+    // console.log(req.params);
     res.status(201).json({
         status: "success",
         user: userArr.length == 0 ? "no user" : userArr[0]
-    })
+    })}catch(err){
+        res.status(201).json({
+            status: "faliure",
+            user: err.message
+        })
+    }
     // next()
 }
-const createUser = (req, res) => {
+const createUser = async (req, res) => {
     let user = req.body;
     // console.log(user);
-    user.uid = uuidv4();
-    userDB.push(user);
-    // saved to disk
-    fs.writeFileSync(path.join(__dirname, "../model/user.json"), JSON.stringify(userDB));
-    // res
-    // res.status(201).json({
-    //     status: "success",
-    //     user: req.body
-    // })
+    try {
+        let nDBUser = await userModel.create(user);
+        // res
+        res.status(201).json({
+            status: "success",
+            user: nDBUser
+        })
+    } catch (err) {
+        res.status(201).json({
+            status: "success",
+            "message": err.message
+        })
+    }
 }
 
 module.exports.getAllUser = getAllUser;
