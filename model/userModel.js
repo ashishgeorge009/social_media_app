@@ -51,16 +51,27 @@ var Delete = (uid) =>{
     
 }
 var update = (uid, userObj) =>{
+    var keys = Object.keys(userObj);
+    let response=[];
     return new Promise(function(resolve, reject){
-        connection.query(`UPDATE user SET ? WHERE uid="${uid}"`,userObj,
+    
+    for(i=0;i<keys.length;i++){
+        connection.query(`UPDATE user SET ${keys[i]}= "${userObj[keys[i]]}" WHERE uid="${uid}"`,userObj,
         function(err,res){
             if (err) {
                 reject(err)
                 return;
-            } else {
-                resolve(res);
+            }else if(i===keys.length){
+                console.log("hello")
+                resolve(response);
+            } 
+            else{
+            response.push(res);
+            console.log(res);
+            
             }
         })
+    }
     })
 }
 // send request

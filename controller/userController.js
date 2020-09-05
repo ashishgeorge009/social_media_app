@@ -13,7 +13,7 @@ const getAllUser = (req, res) => {
 const updateUser = async (req, res) => {
     let cid = req.params.uid;
     try{
-        var upUser= await userModel.update(cid,)
+        var upUser= await userModel.update(cid,req.body)
         res.status(200).json({
             status: "success",
             updated: upUser

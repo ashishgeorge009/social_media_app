@@ -1,5 +1,5 @@
 checkBody = function (req, res, next) {
-    console.log("I will run after express.json");
+    // console.log("I will run after express.json");
     let keysArray = Object.keys(req.body);
     if (keysArray.length == 0) {
         res.status(200).json({

@@ -8,11 +8,7 @@ const app = express();
 // // for accepting data in req.body
 //  it will always run
 // user defined
-app.use(function before(req, res, next) {
-    console.log("I will run before express.json");
-    console.log(req.body);
-    next();
-})
+
 // user defined middleware
 // it tracks json obj in http body and add it to req.body
 app.use(express.json());
@@ -50,11 +46,3 @@ app.use("*", (req, res) => {
 app.listen(3000, () => {
     console.log("Server started at port 3000");
 })
-function getUserById(cUid) {
-
-
-    let userArr = userDB.filter((user) => {
-        return user.uid == cUid;
-    });
-    return userArr[0];
-}
