@@ -1,5 +1,6 @@
 const userDB = require("../model/user.json");
 const userModel = require("../model/userModel");
+const userFollowerModel = require("../model/user_followerModel");
 
 
 const getAllUser = (req, res) => {
@@ -13,7 +14,7 @@ const getAllUser = (req, res) => {
 const updateUser = async (req, res) => {
     let cid = req.params.uid;
     try{
-        var upUser= await userModel.update(cid,req.body)
+        var upUser= await userModel.update(cid,req.body);
         res.status(200).json({
             status: "success",
             updated: upUser
@@ -49,11 +50,12 @@ const getUser = async (req, res) => {
     // req paramatere -> user id
     let cUid = req.params.uid;
     try{
-    userArr = await userModel.getById(cUid);
+        // {}
+    user = await userModel.getById(cUid);
     // console.log(req.params);
     res.status(201).json({
         status: "success",
-        user: userArr.length == 0 ? "no user" : userArr[0]
+        user: user==undefined ? "no user" : user
     })}catch(err){
         res.status(201).json({
             status: "faliure",
@@ -80,8 +82,59 @@ const createUser = async (req, res) => {
     }
 }
 
+//send follow request
+const createRequest = async (req, res) => {
+    try {
+        let uid = req.body.user_id;
+        let follower_id = req.body.follower_id;
+        await userFollowerModel.addPendingFollower(req.body);
+        let { is_public } = await userModel.getById(uid);
+        console.log(is_public);
+        if (is_public == true) {
+            console.log("public")
+            await userFollowerModel.acceptRequest(uid, follower_id);
+            return res.status(201).json({
+                status: "success",
+                "message": "request accepted"
+            })
+        }
+         res.status(201).json({
+            status: "pending",
+            "message": "request is send user will accept it"
+        })
+
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            status: "success",
+            "message": err.message
+        })
+    }
+}
+
+// get ALL followers
+const getAllFollowers = async (req, res) => {
+    try {
+        let result = await userFollowerModel.getAllFollowers(req.body);
+        res.status(201).json({
+            status: "success",
+            "message": result
+        })
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            status: "success",
+            "message": err.message
+        })
+    }
+
+}
+
 module.exports.getAllUser = getAllUser;
 module.exports.updateUser = updateUser;
 module.exports.deleteUser = deleteUser;
 module.exports.getUser = getUser;
 module.exports.createUser = createUser;
+module.exports.createRequest = createRequest;
+module.exports.getAllFollowers = getAllFollowers;

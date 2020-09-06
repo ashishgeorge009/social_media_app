@@ -28,7 +28,8 @@ var getById = (uid) =>{
                 reject(err)
                 return;
             } else {
-                resolve(res);
+                // res =[{}]
+                resolve(res[0]);
             }
         })
     })
@@ -52,27 +53,27 @@ var Delete = (uid) =>{
 }
 var update = (uid, userObj) =>{
     var keys = Object.keys(userObj);
-    let response=[];
-    return new Promise(function(resolve, reject){
-    
-    for(i=0;i<keys.length;i++){
+    let promlist = [];
+    var i =0;
+    while(i<keys.length){
+    var prom = new Promise(function(resolve, reject){
         connection.query(`UPDATE user SET ${keys[i]}= "${userObj[keys[i]]}" WHERE uid="${uid}"`,userObj,
         function(err,res){
             if (err) {
                 reject(err)
                 return;
-            }else if(i===keys.length){
-                console.log("hello")
-                resolve(response);
+            }else{
+                // console.log(res)
+                resolve(res);
             } 
-            else{
-            response.push(res);
-            console.log(res);
-            
-            }
         })
-    }
+    
     })
+    promlist.push(prom);
+    i++;
+}
+return Promise.all(promlist);
+
 }
 // send request
 // recieve request
