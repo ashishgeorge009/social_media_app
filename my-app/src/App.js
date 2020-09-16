@@ -1,10 +1,13 @@
 import React from 'react';
-
+// import logo from './logo.svg';
 import './App.css';
+import UserView from './component/userComponent/UserView';
 
 function App() {
   return (
-    <div>Hello</div>
+    <React.Fragment>
+      <UserView></UserView>
+    </React.Fragment>
   );
 }
 

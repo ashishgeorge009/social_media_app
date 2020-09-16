@@ -130,7 +130,23 @@ const getAllFollowers = async (req, res) => {
     }
 
 }
+const getCountOfAllFollowers = async (req, res) => {
+    try {
+        let result = await userFollowerModel.getCountFollowers(req.params.id);
+        res.status(201).json({
+            status: "success",
+            "message": result
+        })
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            status: "success",
+            "message": err.message
+        })
+    }
 
+}
+module.exports.getCountOfAllFollowers = getCountOfAllFollowers; 
 module.exports.getAllUser = getAllUser;
 module.exports.updateUser = updateUser;
 module.exports.deleteUser = deleteUser;
