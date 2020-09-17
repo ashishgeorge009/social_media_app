@@ -18,7 +18,7 @@ class UserView extends Component {
         let isFollowers = cMenu == "followers";
 
         if (isFollowers) {
-            axios.get("/api/v1/user/request/1c10a5c8-6627-46d5-a6c9-63886b343310")
+            axios.get("/api/v1/user/request/80512ab2-e72d-4985-a0b4-a4d8bf896d82")
                 .then((res) => {
                     // all followers
                     let allFollowers = res.data.message;

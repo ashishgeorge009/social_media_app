@@ -14,13 +14,13 @@ class Profile extends Component {
     //  ui pe print 
     componentDidMount() {
         // getUser
-        axios.get("/api/v1/user/1c10a5c8-6627-46d5-a6c9-63886b343310")
+        axios.get("/api/v1/user/80512ab2-e72d-4985-a0b4-a4d8bf896d82")
             .then((res) => {
                 let { handle, name } = res.data.user
 
                 this.setState({ handle: handle, name });
             }).then(() => {
-                return axios.get("/api/v1/user/request/count/1c10a5c8-6627-46d5-a6c9-63886b343310");
+                return axios.get("/api/v1/user/request/count/80512ab2-e72d-4985-a0b4-a4d8bf896d82");
             }).then((res) => {
                 let count = res.data.message[0].followersCount;
                 // console.log(followers);

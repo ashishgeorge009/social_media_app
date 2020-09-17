@@ -52,3 +52,4 @@ const getCountFollowers = (user_id) => {
 module.exports.addPendingFollower = addPendingFollower;
 module.exports.getAllFollowers = getAllFollowers;
 module.exports.acceptRequest = acceptRequest; 
+module.exports.getCountFollowers = getCountFollowers;
